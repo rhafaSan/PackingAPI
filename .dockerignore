@@ -1,0 +1,9 @@
+bin/
+obj/
+.vscode/
+.git/
+*.user
+*.suo
+*.lock.json
+*.log
+*.vs/

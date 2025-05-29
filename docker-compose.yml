@@ -1,0 +1,36 @@
+version: "3.9"
+
+services:
+  api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    container_name: packing-api
+    ports:
+      - "8080:8080"
+    depends_on:
+      - db
+    environment:
+      - ASPNETCORE_ENVIRONMENT=Development
+      - ConnectionStrings__DefaultConnection=Server=sqlserver;Database=PackingDB;User Id=sa;Password=MyStrongPass1!;
+    networks:
+      - packing-network
+
+  db:
+    image: mcr.microsoft.com/mssql/server:2022-latest
+    container_name: packing-db
+    ports:
+      - "1434:1433"
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=MyStrongPass1!
+    volumes:
+      - sqlvolume:/var/opt/mssql
+    networks:
+      - packing-network
+
+volumes:
+  sqlvolume:
+
+networks:
+  packing-network:
